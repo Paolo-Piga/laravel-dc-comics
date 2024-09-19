@@ -27,20 +27,9 @@ class ComicController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store($comic)
     {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'thumb' => 'string',
-            'price' => 'required|numeric',
-            'series' => 'string|max:255',
-            'sale_date' => 'date',
-            'type' => 'required|string|max:255',
-        ]);
 
-        $comic = Comic::add($data);
-        return redirect()->route('comics.show', $comic->id);
     }
 
     /**
@@ -64,19 +53,12 @@ class ComicController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(string $id)
     {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'author' => 'required|string|max:255',
-            'publisher' => 'required|string|max:255',
-            'release_date' => 'required|date',
-            'price' => 'required|numeric',
-        ]);
+
 
         $comic = Comic::findOrFail($id);
-        $comic->update($data);
+
 
         return redirect()->route('comics.show', $comic->id);
     }
@@ -84,21 +66,15 @@ class ComicController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request,string $id)
+    public function destroy(string $id)
     {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'author' => 'required|string|max:255',
-            'publisher' => 'required|string|max:255',
-            'release_date' => 'required|date',
-            'price' => 'required|numeric',
-        ]);
+
 
         $comic = Comic::findOrFail($id);
-        $comic->update($data);
+        $comic->delete();
 
-        return redirect()->route('comics.show', $comic->id)->with('success', 'Fumetto eliminato con successo');
+
+        return redirect()->route('comics.index', $comic->id)->with('success', 'Fumetto eliminato con successo');
     }
 
 
